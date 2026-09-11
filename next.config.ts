@@ -1,17 +1,22 @@
 import type { NextConfig } from "next";
-import path from "path";
+const isProduction = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
+    cacheComponents: true,
+    partialPrefetching: true,
+
+    compiler: {
+        removeConsole: isProduction && {
+            exclude: ["error", "warn", "info"],
+        },
+    },
+
+    reactCompiler: true,
+    typedRoutes: true,
+
     devIndicators: false,
     productionBrowserSourceMaps: false,
     reactStrictMode: false,
-    turbopack: {
-        root: path.join(__dirname)
-    },
-    images: {
-        minimumCacheTTL: 31536000,
-        remotePatterns: []
-    }
 };
 
 export default nextConfig;
